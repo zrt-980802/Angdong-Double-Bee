@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>实验B</title>		
+	<!-- 顶点着色器和片元着色器代码 -->
+		<script id="vertex-shader" type="x-shader/x-vertex">
+			attribute vec4 a_Position;
+			void main(){
+				gl_Position = a_Position;
+			}
+		</script>
+		<script id="fragment-shader" type="x-shader/x-fragment">
+			precision mediump float;
+			void main(){
+				if(gl_FragCoord.y < 200.0){
+					gl_FragColor = vec4(0.1,0.4,0.0,1.0);
+				}
+				else if(gl_FragCoord.y < 325.0){
+					gl_FragColor = vec4(1.0,1.0,0.7,1.0);
+				}
+				else{
+					gl_FragColor = vec4(0.0,0.0,0.0,1.0);
+				}
+			}
+		</script>
+		<!-- 一组相关的JS库 -->
+		<script type="text/javascript" src="common/webgl-utils.js"></script>
+		<script type="text/javascript" src="common/initShaders.js"></script>
+		<script type="text/javascript" src="common/gl-matrix-min.js"></script>
+		<!-- 绘制三角形的JS代码 -->
+		<script type="text/javascript" src="js/myPhoto.js"></script>
+	</head>
+	<body>
+		<a href="index.html">
+			<h1>return</h1>
+		</a></li>
+		<!-- <canvas id="triangle-canvas" style="border:none;" width="400" height="400"></canvas> -->
+		<img src="image/pic.png" >
+		<img src="image/p201812213502023.png" style="display: none;" id="2" width="20%" height="20%">
+		<p>选择原图是否可见：</p>
+		<input type="radio" name="1" value="yes" />是
+		<input type="radio" name="1" value="no" />否
+		<p><input type="button" onclick="imageShow()" value="确定"/></p>
+		<script type="text/javascript">
+			function imageShow(){
+				var a=document.getElementsByName("1");
+				var b;
+				for(var i=0;i<a.length;i++){
+					if(a[i].checked){
+						b=a[i].value;
+					}
+				}
+				if(b=="yes"){document.getElementById('2').style.display="block";}
+				else{document.getElementById('2').style.display="none";}
+			}
+		</script>
+	</body>
+</html>

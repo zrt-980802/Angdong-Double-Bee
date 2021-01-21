@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Lab2</title>
+		<!-- 顶点着色器和片元着色器代码 -->
+		<script id="vertex-shader" type="x-shader/x-vertex">
+			attribute vec3 vPosition;
+			attribute vec4 vColor;
+			varying vec4 colors;
+			void main(){
+				gl_Position = vec4(vPosition,2.0);
+				colors = vColor;
+			}
+		</script>
+		<script id="fragment-shader" type="x-shader/x-fragment">
+			precision mediump float;
+			varying vec4 colors;
+			void main(){
+				gl_FragColor = colors;
+			}
+		</script>
+		<!-- 一组相关的JS库 -->
+		<script type="text/javascript" src="../js/common/webgl-utils.js"></script>
+		<script type="text/javascript" src="../js/common/initShaders.js"></script>
+		<script type="text/javascript" src="../js/common/gl-matrix-min.js"></script>
+		<!-- 绘制三角形的JS代码 -->
+		<script type="text/javascript" src="../js/ch02/test.js"></script>
+		
+	</head>
+	<body>
+		<a href="../../homework.html"><h1>return</h1></a>
+		<div style="float: left;">
+			<canvas id="gl-canvas" style="border:2px solid darkgray;" width="600" height="600"></canvas>
+		</div>
+		<p>------------三角形------------</p>
+		图形层数:<input id="slide" name="2d" type="range" min="0" max="7" value="0" onchange="fchange();initTriangles();colors=[];" /></br>
+		层数:<input type="text" id="showslide" value="0" style="text-align: center; width: 1rem; border: none;"/>层</br>
+		<p>------------3d------------</p>
+		图形层数:<input id="slide2" name="3d" type="range" min="0" max="7" value="0" onchange="fchange2();init();colors=[];" /></br>
+		层数:<input type="text" id="showslide2" value="0" style="text-align: center; width: 1rem; border: none;"/>层</br>
+		<p>-----------旋转点-------------</p>
+		图形层数: <input id="slide3" name="line" type="range" min="0" max="7" value="0" onchange="fchange3();initTriangles_rota();colors=[];" /></br>
+		层数:<input type="text" id="showslide3" value="0" style="text-align: center; width: 1rem; border: none;"/>层</br>
+		
+		旋转角度: <input id="rota" name="rota" type="range" min="0" max="360" value="0" onchange="frota();initTriangles_rota();colors=[];" /></br>
+		角度:<input type="text" id="showrota" value="0" style="text-align: center; width: 1.5rem; border: none;"/> </br>
+		
+				
+		
+		
+		
+		<script type="text/javascript">
+			document.getElementById("sel").onclick = function(){
+				switch(event.srcElement.index){
+					case 0 :
+						colors = [];
+						initTriangles_rota();
+					break;
+					case 1:
+						colors = [];
+						init();
+					break;
+					case 2:
+						colors = [];
+						initTriangles();
+					break;
+				}
+			};
+		</script>
+		<script type="text/javascript">
+			document.getElementById("slide3").onchange = function(){
+				var a = document.getElementById("slide3");
+				var b = document.getElementById("showslide3");
+				b.value = a.value;
+				fchange3();
+				initTriangles_rota();
+				colors=[];
+			}
+		</script>
+		<script type="text/javascript">
+			document.getElementById("slide2").onchange = function(){
+				var a = document.getElementById("slide2");
+				var b = document.getElementById("showslide2");
+				b.value = a.value;
+				fchange2();
+				init();
+				colors=[];
+			}
+		</script>
+		<script type="text/javascript">
+			document.getElementById("slide").onchange = function(){
+				var a = document.getElementById("slide");
+				var b = document.getElementById("showslide");
+				b.value = a.value;
+				fchange();
+				initTriangles();
+				colors=[];
+			}
+		</script>
+		<script type="text/javascript">
+			document.getElementById("rota").onchange = function(){
+				var a = document.getElementById("rota");
+				var b = document.getElementById("showrota");
+				b.value = a.value;
+				frota();
+				initTriangles_rota();
+				colors=[];
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>lab5</title>
+		<script id="vertex-shader" type="x-shader/x-vertex">
+			attribute vec4 vPosition;
+			attribute vec4 vColor;
+			varying vec4 fColor;
+		
+			uniform mat4 modelViewMatrix;
+			uniform mat4 projectionMatrix;
+			uniform vec3 zoom;
+		
+			void main()
+			{
+				mat4 Zoom = mat4(1.0+zoom[0], 0.0, 0.0, 0.0,
+								 0.0, 1.0+zoom[1], 0.0, 0.0,
+								 0.0, 0.0, 1.0+zoom[2], 0.0,
+								 0.0, 0.0, 0.0, 1.0);
+				
+				gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+				gl_Position = Zoom * gl_Position;
+				fColor = vColor;	
+			}
+		</script>
+
+		<script id="fragment-shader" type="x-shader/x-fragment">
+			precision mediump float;
+		
+			varying vec4 fColor;
+		
+			void main()
+			{
+				gl_FragColor = fColor;
+			}
+		</script>
+
+		<script type="text/javascript" src="./common/webgl-utils.js"></script>
+		<script type="text/javascript" src="./common/initShaders.js"></script>
+		<script type="text/javascript" src="./common/gl-matrix-min.js"></script>
+		<script type="text/javascript" src="./common/objloader.js"></script>
+		<script type="text/javascript" src="./js/complexobjview.js"></script>
+	</head>
+	<body>
+		<a href="../homework.html"><h1>return</h1></a>
+		<h1>lab_5</h1>
+
+		<center>
+			<canvas id="gl-canvas" width="800" height="700" style="margin-right: 10px;">
+				你的浏览器不支持HTML5 Canvas元素
+			</canvas>
+
+		</center>
+		<div style="border:7px blue">
+			<label>选择一个OBJ模型file</label>
+			<input type="file" id="fileInput">
+			<pre id="fileDisplay"></pre>
+		</div>
+		<hr>
+		<div>
+			<label>投影方式 : </label>
+			<input type="radio" id="ortho" name="projtype" value="1" checked><label>正交投影</label>
+			&nbsp;
+			<input type="radio" id="persp" name="projtype" value="2"><label>透视投影</label>
+			<!-- <label id="projtyperes"></label> -->
+		</div>
+		<div>
+			<label>绘制方式 : </label>
+			<input type="radio" id="wire" name="drawtype" value="1" checked><label>线框模式</label>
+			&nbsp;
+			<input type="radio" id="solid" name="drawtype" value="2"><label>实体模式</label><br />
+			<label>颜色选择 : </label>
+			<input type="color" id="objcolor" name="objcolor" value="#ff0000">
+		</div>
+		<hr>
+		<div>
+			<label>对象位置 : </label><input type="radio" id="objpos" name="posgrp" value="1" checked><label>物体位置</label>
+			&nbsp;
+			<input type="radio" id="campos" name="posgrp" value="2"><label>相机位置</label>
+			<!-- <label id="projtyperes"></label> -->
+			<br>
+			<h3>平移、旋转</h3>
+			<!-- <h3>缩放</h3> -->
+			<table border="0">
+				<tr>
+					<td colspan="2"><label>重置按钮 : </label><button id="reSet" type="button">reset</button><br /></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<hr size="4" color="#ec5c1a" style="border: outset;">
+					</td>
+				</tr>
+				<tr>
+					<td><label>x pos</label></td>
+					<td><input type="range" id="xpos" name="xpos" min="-5.0" max="5.0" step="0.1"></td>
+				</tr>
+				<tr>
+					<td><label>y pos</label></td>
+					<td><input type="range" id="ypos" name="ypos" min="-5.0" max="5.0" step="0.1"></td>
+				</tr>
+				<tr>
+					<td><label>z pos</label></td>
+					<td><input type="range" id="zpos" name="zpos" min="-5.0" max="5.0" step="0.1"></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<hr size="4" color="#a93eec" style="border: outset;">
+					</td>
+				</tr>
+				<tr>
+					<td><label>x rot</label></td>
+					<td><input type="range" id="xrot" name="xrot" min="-360" max="360" step="1.0"></td>
+				</tr>
+				<tr>
+					<td><label>y rot</label></td>
+					<td><input type="range" id="yrot" name="yrot" min="-360" max="360" step="1.0"></td>
+				</tr>
+				<tr>
+					<td><label>z rot</label></td>
+					<td><input type="range" id="zrot" name="zrot" min="-360" max="360" step="1.0"></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<hr size="4" color="#92ec79" style="border: outset;">
+					</td>
+				</tr>
+				<!-- <tr>
+					<td><label>x zoom</label></td>
+					<td><input type="range" id="xzoom" name="xzoom" min="-1" max="2" step="0.1"></td>
+				</tr>
+				<tr>
+					<td><label>y zoom</label></td>
+					<td><input type="range" id="yzoom" name="yzoom" min="-1" max="2" step="0.1"></td>
+				</tr>
+				<tr>
+					<td><label>z zoom</label></td>
+					<td><input type="range" id="zzoom" name="zzoom" min="-1" max="2" step="0.1"></td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<hr size="4" color="#92ece6" style="border: outset;">
+					</td>
+				</tr> -->
+			</table>
+		</div>
+	</body>
+</html>

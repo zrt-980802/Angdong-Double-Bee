@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>实验A</title>
+    <script id="rot-v-shader" type="x-shader/x-vertex">
+	attribute vec4 a_Position;
+	uniform float theta;
+
+	void main()
+	{
+		float u = cos( theta );
+		float v = sin( theta );
+
+		gl_Position.x = a_Position.x * u - a_Position.y * v;
+		gl_Position.y = a_Position.x * v + a_Position.y * u;
+		gl_Position.z = 0.0;
+		gl_Position.w = 1.0;
+	}
+	</script>
+
+    <script id="rot-f-shader" type="x-shader/x-fragment">
+	precision mediump float;
+
+	void main()
+	{
+		gl_FragColor = vec4( 1.0, 0.0, 0.0, 1.0 );
+	}
+	</script>
+
+    <script type="text/javascript" src="common/webgl-utils.js"></script>
+    <script type="text/javascript" src="common/initShaders.js"></script>
+    <script type="text/javascript" src="common/gl-matrix-min.js"></script>
+
+    <script type="text/javascript" src="js/rottriangle.js"></script>
+	
+	<script>
+	 function keyup_submit(e){
+		var evt = window.event || e; 
+	    if (evt.keyCode == 13){
+	    change_();
+	   }
+	}
+	</script>
+</head>
+<body onload="initRotSquare()">
+	<a href="index.html">
+		<h1>return</h1>
+	</a></li>
+    <canvas id="rot-canvas" width="400" height="400">你的浏览器不支持HTML5 canvas元素</canvas>
+	<p>
+    <button id="direction" onclick="changeDir()">换个方向</button>
+    &nbsp;&nbsp;&nbsp;<big>或者</big>&nbsp;&nbsp;&nbsp;输入后按回车：
+	<input type="text" id="controls" value="" onkeydown="keyup_submit(event);"/>
+	<ol>
+		<li>0.5倍</li>
+		<li>1.5倍</li>
+		<li>2.0倍</li>
+		<li>换个方向</li>
+	</ol>
+	</p>
+</body>
+</html>

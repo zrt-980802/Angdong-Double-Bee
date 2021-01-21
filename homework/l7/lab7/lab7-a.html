@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-type" content="text/html;charset=utf-8">
+	<title>Lab7-a</title>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+		varying vec3 R;
+
+		attribute vec4 vPosition;
+		attribute vec4 vNormal;
+
+		uniform mat4 modelViewMatrix;
+		uniform mat4 projectionMatrix;
+		uniform mat3 normalMatrix;
+
+		void main()
+		{
+			gl_Position = projectionMatrix * modelViewMatrix * vPosition;
+
+			vec3 eyePos = ( modelViewMatrix * vPosition ).xyz;
+
+			vec3 N = normalize( normalMatrix * vNormal.xyz );
+
+			R = reflect( eyePos, N );
+		}
+	</script>
+
+	<script id="fragment-shader" type="x-shader/x-fragment">
+		precision mediump float;
+
+		varying vec3 R;
+		uniform samplerCube texMap;
+
+		void main()
+		{
+			vec4 texColor = textureCube( texMap, R );
+			gl_FragColor = texColor;
+		}
+	</script>
+
+    <script type="text/javascript" src="../js/common/webgl-utils.js"></script>
+    <script type="text/javascript" src="../js/common/initShaders.js"></script>
+    <script type="text/javascript" src="../js/common/gl-matrix.js"></script>
+    <script type="text/javascript" src="../js/ch07/textureCubeCheck.js"></script>
+</head>
+
+<body>
+	<a href="l7.html">
+		<h1>return</h1>
+	</a>
+    <h1>Lab7-a</h1>
+    <canvas id="gl-canvas" width="600" height="600"></canvas>
+	<div style="left: 700px;top: 200px;position: absolute;">
+		<button id="ButtonX">RotateX</button>
+		<button id="ButtonY">RotateY</button>
+		<button id="ButtonZ">RotateZ</button>
+		</div>
+			
+</body>
+</html>
